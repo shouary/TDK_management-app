@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        form {
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .summary-section {
+            margin: 20px 0;
+        }
+        .update-button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .update-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Transaction Summary</h1>
+    </header>
+    <div class="container">
+        <form method="get" action="{{ url_for('summary') }}">
+            <input type="text" name="customer_name" placeholder="Search by customer name" value="{{ customer_name }}">
+            <button type="submit">Search</button>
+            <a href="{{ url_for('summary') }}" class="clear-search">Clear Search</a>
+        </form>
+
+        <div class="summary-section">
+            <h2>Summary for {{ customer_name }}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Total Metal Received</th>
+                        <th>Total Metal Used</th>
+                        <th>Total Money Received</th>
+                        <th>Total Metal Pending</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ summary.total_metal_received }}</td>
+                        <td>{{ summary.total_metal_used }}</td>
+                        <td>{{ summary.total_money_received }}</td>
+                        <td>{{ summary.total_metal_pending }}</td>
+                        <td>
+                            {% if customer_name %}
+                            <a href="{{ url_for('update_summary', customer_name=customer_name) }}" class="update-button">Update Summary</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="summary-section">
+            <h2>Overall Summary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Total Metal Received</th>
+                        <th>Total Metal Used</th>
+                        <th>Total Money Received</th>
+                        <th>Total Metal Pending</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ summary.overall_metal_received }}</td>
+                        <td>{{ summary.overall_metal_used }}</td>
+                        <td>{{ summary.overall_money_received }}</td>
+                        <td>{{ summary.overall_metal_pending }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions">
+            <a href="{{ url_for('index') }}" class="back-to-home">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
